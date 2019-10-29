@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Donut", "Donut.csproj", "{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9BF6ED67-625C-48AA-972B-F523A7B01441}
+	EndGlobalSection
+EndGlobal
