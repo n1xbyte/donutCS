@@ -8,7 +8,7 @@ Confirmed working on Kali and Windows
 
 ## Usage
 Refer to https://github.com/TheWover/donut for full usage. Should be exactly the same.  
-Passing parameters to dotnet build (if your are building from kali) explained [here](.docs/KaliUse.md)  
+Passing parameters to dotnet build (if your are building from kali) explained [here](./docs/KaliUse.md)  
 
 ## Testing
 https://github.com/TheWover/donut/tree/master/DonutTest  
