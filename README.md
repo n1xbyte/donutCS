@@ -6,4 +6,4 @@ This is as close as I could come to a 1:1 port from the original donut.c code at
 
 ## Install & Usage  
 [Kali Install Instructions](https://github.com/n1xbyte/donutCS/blob/master/docs/Install.md)   
-[General Usage - Kali](https://github.com/n1xbyte/donutCS/blob/master/docs/KaliUsage.md)  
+[Example Usage - Kali](https://github.com/n1xbyte/donutCS/blob/master/docs/KaliUse.md)  
