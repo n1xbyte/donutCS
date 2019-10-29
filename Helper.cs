@@ -276,7 +276,7 @@ namespace donutCS
             {
                 for (var i = 0; i < apiimports.ElementAt(l).Value.Count; i++)
                 {
-                    dll_hash = Maru(apiimports.ElementAt(l).Key, ref inst) ;
+                    dll_hash = Maru(apiimports.ElementAt(l).Key, ref inst);
                     final = Maru(apiimports.ElementAt(l).Value[i], ref inst) ^ dll_hash;
                     D.Print($"{apiimports.ElementAt(l).Key}\t{apiimports.ElementAt(l).Value[i]}\t{string.Format("{0:X}", final)}");
                     inst.api.hash[inst.api_cnt++] = final;
@@ -308,6 +308,248 @@ namespace donutCS
             D.Print($"DLL Count: {inst.dll_cnt}");
             D.Print($"API Count: {inst.api_cnt}");
         }
+        public static void ParseArguments(Options opts, ref DSConfig config)
+        {
+            try
+            {
+                if (opts.InputFile.Equals(null) == false)
+                {
+                    char[] buffer = opts.InputFile.ToCharArray();
+                    Array.Copy(buffer, 0, config.file, 0, buffer.Length);
+                    Console.WriteLine($"\tFile:\t {opts.InputFile}");
+                }
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Arch.Equals(null) == false)
+                {
+                    config.arch = opts.Arch;
+                    Console.WriteLine($"\tArch:\t {config.arch}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Level.Equals(null) == false)
+                {
+                    config.bypass = opts.Level;
+                    Console.WriteLine($"\tBypass:\t {config.bypass}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.NamespaceClass.Equals(null) == false)
+                {
+                    char[] buffer = opts.NamespaceClass.ToCharArray();
+                    Array.Copy(buffer, 0, config.cls, 0, buffer.Length);
+                    Console.WriteLine($"\tClass:\t {opts.NamespaceClass}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Method.Equals(null) == false)
+                {
+                    char[] buffer = opts.Method.ToCharArray();
+                    Array.Copy(buffer, 0, config.method, 0, buffer.Length);
+                    Console.WriteLine($"\tMethod:\t {opts.Method}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Args.Equals(null) == false)
+                {
+                    char[] buffer = opts.Args.ToCharArray();
+                    Array.Copy(buffer, 0, config.param, 0, buffer.Length);
+                    Console.WriteLine($"\tArgs:\t {opts.Args}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Version.Equals(null) == false)
+                {
+                    char[] buffer = opts.Version.ToCharArray();
+                    Array.Copy(buffer, 0, config.runtime, 0, buffer.Length);
+                    Console.WriteLine($"\tVersion:\t {opts.Version}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.URL.Equals(null) == false)
+                {
+                    char[] buffer = opts.URL.ToCharArray();
+                    Array.Copy(buffer, 0, config.url, 0, buffer.Length);
+                    config.inst_type = Constants.DONUT_INSTANCE_URL;
+                    Console.WriteLine($"\tURL:\t {opts.URL}");
+                };
+            }
+            catch { };
+        }
+        // Correlate error value to string
+        public static string GetError(int ret)
+        {
+            string returnval = "";
+            switch (ret)
+            {
+                case Constants.DONUT_ERROR_SUCCESS:
+                    returnval = "[*] Success";
+                    break;
+                case Constants.DONUT_ERROR_FILE_NOT_FOUND:
+                    returnval = "[-] File not found";
+                    break;
+                case Constants.DONUT_ERROR_FILE_EMPTY:
+                    returnval = "[-] File is empty";
+                    break;
+                case Constants.DONUT_ERROR_FILE_ACCESS:
+                    returnval = "[-] Cannot open file";
+                    break;
+                case Constants.DONUT_ERROR_FILE_INVALID:
+                    returnval = "[-] File is invalid";
+                    break;
+                case Constants.DONUT_ERROR_NET_PARAMS:
+                    returnval = "[-] File is a .NET DLL. Donut requires a class and method";
+                    break;
+                case Constants.DONUT_ERROR_NO_MEMORY:
+                    returnval = "[-] No memory available";
+                    break;
+                case Constants.DONUT_ERROR_INVALID_ARCH:
+                    returnval = "[-] Invalid architecture specified";
+                    break;
+                case Constants.DONUT_ERROR_INVALID_URL:
+                    returnval = "[-] Invalid URL";
+                    break;
+                case Constants.DONUT_ERROR_URL_LENGTH:
+                    returnval = "[-] Invalid URL length";
+                    break;
+                case Constants.DONUT_ERROR_INVALID_PARAMETER:
+                    returnval = "[-] Invalid parameter";
+                    break;
+                case Constants.DONUT_ERROR_RANDOM:
+                    returnval = "[-] Error generating random values";
+                    break;
+                case Constants.DONUT_ERROR_DLL_FUNCTION:
+                    returnval = "[-] Unable to locate DLL function provided. Names are case Constants.sensitive";
+                    break;
+                case Constants.DONUT_ERROR_ARCH_MISMATCH:
+                    returnval = "[-] Target architecture cannot support selected DLL/EXE file";
+                    break;
+                case Constants.DONUT_ERROR_DLL_PARAM:
+                    returnval = "[-] You've supplied parameters for an unmanaged DLL. Donut also requires a DLL function";
+                    break;
+                case Constants.DONUT_ERROR_BYPASS_INVALID:
+                    returnval = "[-] Invalid bypass option specified";
+                    break;
+                case Constants.DONUT_ERROR_NORELOC:
+                    returnval = "[-] This file has no relocation information required for in-memory execution.";
+                    break;
+            }
+            return returnval;
+        }
+        public dynamic InitStruct(string type)
+        {
+            if (type == "DSConfig")
+            {
+                var config = new DSConfig
+                {
+                    arch = Constants.DONUT_ARCH_X84,
+                    bypass = Constants.DONUT_BYPASS_CONTINUE,
+                    inst_type = Constants.DONUT_INSTANCE_PIC,
+                    mod_len = 0,
+                    inst_len = 0,
+                    pic = IntPtr.Zero,
+                    pic_len = 0,
+                    cls = new char[Constants.DONUT_MAX_NAME],
+                    domain = new char[Constants.DONUT_MAX_NAME],
+                    method = new char[Constants.DONUT_MAX_NAME],
+                    modname = new char[Constants.DONUT_MAX_NAME],
+                    file = new char[Constants.DONUT_MAX_NAME],
+                    runtime = new char[Constants.DONUT_MAX_NAME],
+                    url = new char[Constants.DONUT_MAX_NAME],
+                    param = new char[(Constants.DONUT_MAX_PARAM + 1) * Constants.DONUT_MAX_NAME]
+                };
+
+                return config;
+            }
+            else if (type == "DSModule")
+            {
+                var mod = new DSModule
+                {
+                    runtime = new byte[512],
+                    cls = new byte[512],
+                    method = new byte[512],
+                    domain = new byte[512],
+                    sig = new char[256]
+                };
+                mod.p = new P[Constants.DONUT_MAX_PARAM + 1];
+                for (int i = 0; i < mod.p.Length; i++)
+                {
+                    mod.p[i] = new P
+                    {
+                        param = new byte[Constants.DONUT_MAX_NAME * 2]
+                    };
+                }
+
+                return mod;
+            }
+            else if (type == "DSInstance")
+            {
+                var inst = new DSInstance
+                {
+                    sig = new char[256],
+                    amsiInit = new char[16],
+                    amsiScanBuf = new char[16],
+                    amsiScanStr = new char[16],
+                    clr = new char[8],
+                    wldp = new char[16],
+                    wldpQuery = new char[32],
+                    wldpIsApproved = new char[32],
+                    wscript = new char[16],
+                    wscript_exe = new char[32],
+                };
+                inst.amsi = new AMSI();
+                inst.amsi.s = new char[8];
+                inst.key.ctr = new byte[16];
+                inst.key.mk = new byte[16];
+                inst.mod_key.ctr = new byte[16];
+                inst.mod_key.mk = new byte[16];
+
+                return inst;
+            }
+            return 0;
+        }
+        public static unsafe void WriteOutput(string outfile, ref DSConfig config)
+        {
+            try
+            {
+                // Raw bytes to file
+                FileStream f = new FileStream(outfile, FileMode.Create, FileAccess.Write);
+                UnmanagedMemoryStream fs = new UnmanagedMemoryStream((byte*)config.pic, Convert.ToInt32(config.pic_cnt));
+                fs.CopyTo(f);
+                fs.Close();
+                f.Close();
+                Console.WriteLine($"Raw Payload: {outfile}");
+
+                // Write B64 version
+                File.WriteAllText($@"{outfile}.b64", Convert.ToBase64String(File.ReadAllBytes(outfile)));
+                Console.WriteLine($"B64 Payload: {outfile}.b64");
+            }
+            catch
+            {
+                Console.WriteLine("Failed to write payload to file");
+            }
+        }
         public unsafe static UInt64 Maru(string input, ref DSInstance inst)
         {
             byte[] zeros = new byte[Constants.MARU_BLK_LEN];
@@ -325,7 +567,7 @@ namespace donutCS
             {
                 if (api[len] == 0 || len == Constants.MARU_MAX_STR)
                 {
-                    Buffer.MemoryCopy(ptr.ToPointer(), m.b+ind, Marshal.SizeOf(typeof(M)), Constants.MARU_BLK_LEN-ind);
+                    Buffer.MemoryCopy(ptr.ToPointer(), m.b + ind, Marshal.SizeOf(typeof(M)), Constants.MARU_BLK_LEN - ind);
                     m.b[ind] = 0x80;
                     if (ind >= Constants.MARU_BLK_LEN - 4)
                     {
@@ -358,7 +600,7 @@ namespace donutCS
 
             for (int z = 0; z < 16; z++)
             {
-                f[z] = m.b[z]; 
+                f[z] = m.b[z];
             }
             Buffer.BlockCopy(f, 0, c, 0, 16);
 
@@ -370,7 +612,7 @@ namespace donutCS
                 k[i] = c[i];
             }
 
-            for(i = 0; i < 27; i++)
+            for (i = 0; i < 27; i++)
             {
                 x.w[0] = ((((x.w[0]) >> (8)) | ((x.w[0]) << (32 - (8)))) + x.w[1]) ^ k[0];
                 x.w[1] = (((x.w[1]) >> (29)) | ((x.w[1]) << (32 - (29)))) ^ x.w[0];
@@ -489,9 +731,9 @@ namespace donutCS
         public static void PUT_WORD(byte[] sarr, ref DSConfig config)
         {
             IntPtr ptr = config.pic + config.pic_cnt;
-            for (int i =0; i<4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                Marshal.WriteByte(ptr+i, sarr[i]);
+                Marshal.WriteByte(ptr + i, sarr[i]);
                 config.pic_cnt++;
             }
         }
