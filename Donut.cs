@@ -40,6 +40,7 @@ namespace donutCS
             Console.WriteLine($"\nReturn Value:\n\t{Helper.GetError(ret)}\n");
             if (ret != Constants.DONUT_ERROR_SUCCESS)
             {
+                Marshal.FreeHGlobal(config.pic);
                 Environment.Exit(0);
             }
 
