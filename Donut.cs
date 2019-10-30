@@ -34,7 +34,7 @@ namespace donutCS
             });
 
             // Start Generation with Config
-            int ret = Generator.Donut_Create(ref config);
+            int ret = Generator.Donut_Create(ref config, outfile);
 
             // Write Result
             Console.WriteLine($"\nReturn Value:\n\t{Helper.GetError(ret)}\n");
@@ -43,9 +43,6 @@ namespace donutCS
                 Marshal.FreeHGlobal(config.pic);
                 Environment.Exit(0);
             }
-
-            // Write Output
-            Helper.WriteOutput(outfile, ref config);
 
             // Free PIC shellcode
             Marshal.FreeHGlobal(config.pic);

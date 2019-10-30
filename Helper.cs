@@ -25,6 +25,17 @@ namespace donutCS
             [FieldOffset(0)] public fixed UInt32 w[2];
             [FieldOffset(0)] public fixed UInt64 q[2];
         }
+        public static void EditTemplate(string outfile)
+        {
+            string payload = File.ReadAllText(@"Templates\Program.cs");
+            string b64update = payload.Replace("{COCONUT}", File.ReadAllText($"{outfile}.b64"));
+            File.WriteAllText(@"Templates\Program.cs", b64update);
+            Console.WriteLine("Updated Template");
+        }
+        public static void CompileTemplate()
+        {
+            
+        }
         public static int ParseConfig(ref DSConfig config, ref DSFileInfo fi)
         {
             D.Print("Entering ParseConfig()");
@@ -539,11 +550,11 @@ namespace donutCS
                 fs.CopyTo(f);
                 fs.Close();
                 f.Close();
-                Console.WriteLine($"Raw Payload: {outfile}");
+                Console.WriteLine($"\nRaw Payload: {outfile}");
 
                 // Write B64 version
                 File.WriteAllText($@"{outfile}.b64", Convert.ToBase64String(File.ReadAllBytes(outfile)));
-                Console.WriteLine($"B64 Payload: {outfile}.b64");
+                Console.WriteLine($"B64 Payload: {outfile}.b64\n");
             }
             catch
             {

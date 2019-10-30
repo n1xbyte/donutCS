@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut", "Donut.csproj", "{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template", "Template.csproj", "{F95D7715-10CA-4251-8F04-4E4DEBA5A0C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE6A5468-56A1-4BDC-8BA2-AA9B1A9ABABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F95D7715-10CA-4251-8F04-4E4DEBA5A0C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F95D7715-10CA-4251-8F04-4E4DEBA5A0C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F95D7715-10CA-4251-8F04-4E4DEBA5A0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F95D7715-10CA-4251-8F04-4E4DEBA5A0C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9BF6ED67-625C-48AA-972B-F523A7B01441}
+		SolutionGuid = {91A547B9-BE9E-42F9-970B-B0C8794682C2}
 	EndGlobalSection
 EndGlobal

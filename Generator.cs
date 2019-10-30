@@ -9,7 +9,7 @@ namespace donutCS
 {
     class Generator
     {
-        public static int Donut_Create(ref DSConfig config)
+        public static int Donut_Create(ref DSConfig config, string outfile)
         {
             D.Print("Entering Donut_Create()");
             int ret;
@@ -38,7 +38,23 @@ namespace donutCS
             {
                 return ret;
             }
+
+            // Generates output
+            ret = GenerateOutput(ref config, outfile);
+            if (ret != Constants.DONUT_ERROR_SUCCESS)
+            {
+                return ret;
+            }
+
+            // Compiles loader
+            //ret = CompileLoader();
+            //if (ret != Constants.DONUT_ERROR_SUCCESS)
+            //{
+            //    return ret;
+            //}
+
             return Constants.DONUT_ERROR_SUCCESS;
+
         }
         public static int CreateModule(ref DSConfig config, ref DSFileInfo fi)
         {
@@ -374,6 +390,24 @@ namespace donutCS
                 Helper.PUT_BYTE(0x52, ref config);
                 Helper.PUT_BYTES(Constants.PAYLOAD_EXE_x86, Constants.PAYLOAD_EXE_x86.Length, ref config);
             }
+            return Constants.DONUT_ERROR_SUCCESS;
+        }
+
+        public static int GenerateOutput(ref DSConfig config, string outfile)
+        {
+
+            // Write Output
+            Helper.WriteOutput(outfile, ref config);
+
+            // Edit Loader Template
+            Helper.EditTemplate(outfile);
+
+            return Constants.DONUT_ERROR_SUCCESS;
+        }
+
+        public static int CompileLoader()
+        {
+
             return Constants.DONUT_ERROR_SUCCESS;
         }
     }
