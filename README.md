@@ -14,8 +14,6 @@ Passing parameters to dotnet build (if your are building from Kali) explained [h
 From the root of the donut directory you can run "dotnet run" or "dotnet run --configuration Release" if you don't want to see the marshalling errors and debug prints.
 
 ## Testing
-https://github.com/TheWover/donut/tree/master/DonutTest  
-
 Video on basic usage and quick example of automation: https://vimeo.com/369739318  
 Template file is an alteration of https://github.com/TheWover/donut/tree/master/DonutTest  
 The donut generator will automatically drop the base64 shellcode into the Template loader as long as "{COCONUT}" follows the variable.  
