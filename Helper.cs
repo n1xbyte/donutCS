@@ -30,9 +30,16 @@ namespace donutCS
             try
             {
                 string payload = File.ReadAllText(@"Templates\Program.cs");
-                string b64update = payload.Replace("{COCONUT}", File.ReadAllText($"{outfile}.b64"));
-                File.WriteAllText(@"Templates\Program.cs", b64update);
-                Console.WriteLine("Updated Template");
+                if (payload.Contains("{COCONUT}"))
+                {
+                    string b64update = payload.Replace("{COCONUT}", File.ReadAllText($"{outfile}.b64"));
+                    File.WriteAllText(@"Templates\Program.cs", b64update);
+                    Console.WriteLine("Updated Template");
+                }
+                else
+                {
+                    Console.WriteLine("{COCONUT} not found");
+                }
             }
             catch
             {
