@@ -20,10 +20,14 @@ Video on basic usage and quick example of automation: https://vimeo.com/36973931
 Template file is an alteration of https://github.com/TheWover/donut/tree/master/DonutTest  
 The donut generator will automatically drop the base64 shellcode into the Template loader as long as "{COCONUT}" follows the variable.  
 
+Alternatively, the base64'ed and raw payload will still be saved in the directory.  
+
 You need to edit the lines 44, 53, and 57 to programs that fit your needs depending on the payload.  
 
+Currently, Helper.EditTemplate() is a simple find and replace, can twist and use however you like.  
+
 ## Future
-Create more seamless automation for final payload generation.  
+Create more seamless automation for final payload generation, automatic compilation on windows/linux.  
 
 Create a new class to generate a Config struct to pass to Donut_Create()
   

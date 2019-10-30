@@ -27,10 +27,17 @@ namespace donutCS
         }
         public static void EditTemplate(string outfile)
         {
-            string payload = File.ReadAllText(@"Templates\Program.cs");
-            string b64update = payload.Replace("{COCONUT}", File.ReadAllText($"{outfile}.b64"));
-            File.WriteAllText(@"Templates\Program.cs", b64update);
-            Console.WriteLine("Updated Template");
+            try
+            {
+                string payload = File.ReadAllText(@"Templates\Program.cs");
+                string b64update = payload.Replace("{COCONUT}", File.ReadAllText($"{outfile}.b64"));
+                File.WriteAllText(@"Templates\Program.cs", b64update);
+                Console.WriteLine("Updated Template");
+            }
+            catch
+            {
+                Console.WriteLine("Failed to update template");
+            }
         }
         public static void CompileTemplate()
         {
