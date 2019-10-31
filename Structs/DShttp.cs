@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace donutCS.Structs
+namespace Donut.Structs
 {
     public struct DSHttp
     {

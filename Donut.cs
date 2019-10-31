@@ -4,16 +4,14 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 using CommandLine;
-using donutCS.Structs;
+using Donut.Structs;
 
-namespace donutCS
+namespace Donut
 {
-    class Donut
+    public class Donut
     {
-        static unsafe void Main(string[] args)
+        public static void Main(string[] args)
         {
-            string outfile = "";
-
             // Init Config Struct
             DSConfig config = new Helper().InitStruct("DSConfig");
 
@@ -29,12 +27,11 @@ namespace donutCS
                 else
                 {
                     Helper.ParseArguments(opts, ref config);
-                    outfile = opts.Payload;
                 }
             });
 
             // Start Generation with Config
-            int ret = Generator.Donut_Create(ref config, outfile);
+            int ret = Generator.Donut_Create(ref config);
 
             // Write Result
             Console.WriteLine($"\nReturn Value:\n\t{Helper.GetError(ret)}\n");
@@ -49,7 +46,7 @@ namespace donutCS
         }
     }
 
-    class Options
+    public class Options
     {
         [Option('f', "InputFile", Required = true, HelpText = ".NET assembly, EXE, DLL, VBS, JS or XSL file to execute in-memory.")]
         public string InputFile { get; set; }

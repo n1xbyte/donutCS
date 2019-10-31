@@ -1,6 +1,6 @@
-﻿namespace donutCS.Payloads
+﻿namespace Donut.Payloads
 {
-    class payload_exe_x64
+    public class payload_exe_x64
     {
         public static readonly byte[] PAYLOAD_EXE_X64 = {
   0x48, 0x8b, 0xc4, 0x48, 0x89, 0x58, 0x08, 0x48, 0x89, 0x68, 0x10, 0x48,

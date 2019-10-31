@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 
-using donutCS.Structs;
+using Donut.Structs;
 
-namespace donutCS
+namespace Donut
 {
-    class Helper
+    public class Helper
     {
         [StructLayout(LayoutKind.Explicit)]
         public unsafe struct M
@@ -49,6 +49,166 @@ namespace donutCS
         public static void CompileTemplate()
         {
             
+        }
+
+        // This parses if using nuget package
+        public static int ParseArguments(ref DonutConfig args, ref DSConfig config)
+        {
+            int ret;
+            // If no input file
+            if (string.IsNullOrEmpty(args.InputFile) == true)
+            {
+                return Constants.DONUT_ERROR_FILE_NOT_FOUND;
+            }
+
+            // URL not supported yet
+            if (string.IsNullOrEmpty(args.URL) == false)
+            {
+                return Constants.DONUT_ERROR_INVALID_URL;
+            }
+
+            // Assign values
+            config.arch = args.Arch;
+            config.bypass = args.Bypass;
+
+            if (string.IsNullOrEmpty(args.Class) == false)
+            {
+                Helper.Copy(config.cls, args.Class);
+            }
+
+            if (string.IsNullOrEmpty(args.Domain) == false)
+            {
+                Helper.Copy(config.domain, args.Domain);
+            }
+
+            if (string.IsNullOrEmpty(args.Method) == false)
+            {
+                Helper.Copy(config.method, args.Method);
+            }
+
+            if (string.IsNullOrEmpty(args.Runtime) == false)
+            {
+                Helper.Copy(config.runtime, args.Runtime);
+            }
+
+            if (string.IsNullOrEmpty(args.Payload) == false)
+            {
+                Helper.Copy(config.outfile, args.Payload);
+            }
+
+            if (string.IsNullOrEmpty(args.Args) == false)
+            {
+                Helper.Copy(config.param, args.Args);
+            }
+
+            if (string.IsNullOrEmpty(args.InputFile) == false)
+            {
+                Helper.Copy(config.file, args.InputFile);
+            }
+
+            return Constants.DONUT_ERROR_SUCCESS;
+        }
+        
+        // This parses if using commandline
+        public static void ParseArguments(Options opts, ref DSConfig config)
+        {
+            try
+            {
+                if (opts.InputFile.Equals(null) == false)
+                {
+                    char[] buffer = opts.InputFile.ToCharArray();
+                    Array.Copy(buffer, 0, config.file, 0, buffer.Length);
+                    Console.WriteLine($"\tFile:\t {opts.InputFile}");
+                }
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Arch.Equals(null) == false)
+                {
+                    config.arch = opts.Arch;
+                    Console.WriteLine($"\tArch:\t {config.arch}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Level.Equals(null) == false)
+                {
+                    config.bypass = opts.Level;
+                    Console.WriteLine($"\tBypass:\t {config.bypass}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.NamespaceClass.Equals(null) == false)
+                {
+                    char[] buffer = opts.NamespaceClass.ToCharArray();
+                    Array.Copy(buffer, 0, config.cls, 0, buffer.Length);
+                    Console.WriteLine($"\tClass:\t {opts.NamespaceClass}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Payload.Equals(null) == false)
+                {
+                    char[] buffer = opts.Payload.ToCharArray();
+                    Array.Copy(buffer, 0, config.outfile, 0, buffer.Length);
+                    Console.WriteLine($"\tOutFile:\t {opts.Payload}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Method.Equals(null) == false)
+                {
+                    char[] buffer = opts.Method.ToCharArray();
+                    Array.Copy(buffer, 0, config.method, 0, buffer.Length);
+                    Console.WriteLine($"\tMethod:\t {opts.Method}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Args.Equals(null) == false)
+                {
+                    char[] buffer = opts.Args.ToCharArray();
+                    Array.Copy(buffer, 0, config.param, 0, buffer.Length);
+                    Console.WriteLine($"\tArgs:\t {opts.Args}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Version.Equals(null) == false)
+                {
+                    char[] buffer = opts.Version.ToCharArray();
+                    Array.Copy(buffer, 0, config.runtime, 0, buffer.Length);
+                    Console.WriteLine($"\tVersion:\t {opts.Version}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.URL.Equals(null) == false)
+                {
+                    char[] buffer = opts.URL.ToCharArray();
+                    Array.Copy(buffer, 0, config.url, 0, buffer.Length);
+                    config.inst_type = Constants.DONUT_INSTANCE_URL;
+                    Console.WriteLine($"\tURL:\t {opts.URL}");
+                };
+            }
+            catch { };
         }
         public static int ParseConfig(ref DSConfig config, ref DSFileInfo fi)
         {
@@ -333,95 +493,6 @@ namespace donutCS
             D.Print($"DLL Count: {inst.dll_cnt}");
             D.Print($"API Count: {inst.api_cnt}");
         }
-        public static void ParseArguments(Options opts, ref DSConfig config)
-        {
-            try
-            {
-                if (opts.InputFile.Equals(null) == false)
-                {
-                    char[] buffer = opts.InputFile.ToCharArray();
-                    Array.Copy(buffer, 0, config.file, 0, buffer.Length);
-                    Console.WriteLine($"\tFile:\t {opts.InputFile}");
-                }
-            }
-            catch { };
-
-            try
-            {
-                if (opts.Arch.Equals(null) == false)
-                {
-                    config.arch = opts.Arch;
-                    Console.WriteLine($"\tArch:\t {config.arch}");
-                };
-            }
-            catch { };
-
-            try
-            {
-                if (opts.Level.Equals(null) == false)
-                {
-                    config.bypass = opts.Level;
-                    Console.WriteLine($"\tBypass:\t {config.bypass}");
-                };
-            }
-            catch { };
-
-            try
-            {
-                if (opts.NamespaceClass.Equals(null) == false)
-                {
-                    char[] buffer = opts.NamespaceClass.ToCharArray();
-                    Array.Copy(buffer, 0, config.cls, 0, buffer.Length);
-                    Console.WriteLine($"\tClass:\t {opts.NamespaceClass}");
-                };
-            }
-            catch { };
-
-            try
-            {
-                if (opts.Method.Equals(null) == false)
-                {
-                    char[] buffer = opts.Method.ToCharArray();
-                    Array.Copy(buffer, 0, config.method, 0, buffer.Length);
-                    Console.WriteLine($"\tMethod:\t {opts.Method}");
-                };
-            }
-            catch { };
-
-            try
-            {
-                if (opts.Args.Equals(null) == false)
-                {
-                    char[] buffer = opts.Args.ToCharArray();
-                    Array.Copy(buffer, 0, config.param, 0, buffer.Length);
-                    Console.WriteLine($"\tArgs:\t {opts.Args}");
-                };
-            }
-            catch { };
-
-            try
-            {
-                if (opts.Version.Equals(null) == false)
-                {
-                    char[] buffer = opts.Version.ToCharArray();
-                    Array.Copy(buffer, 0, config.runtime, 0, buffer.Length);
-                    Console.WriteLine($"\tVersion:\t {opts.Version}");
-                };
-            }
-            catch { };
-
-            try
-            {
-                if (opts.URL.Equals(null) == false)
-                {
-                    char[] buffer = opts.URL.ToCharArray();
-                    Array.Copy(buffer, 0, config.url, 0, buffer.Length);
-                    config.inst_type = Constants.DONUT_INSTANCE_URL;
-                    Console.WriteLine($"\tURL:\t {opts.URL}");
-                };
-            }
-            catch { };
-        }
         // Correlate error value to string
         public static string GetError(int ret)
         {
@@ -502,8 +573,10 @@ namespace donutCS
                     file = new char[Constants.DONUT_MAX_NAME],
                     runtime = new char[Constants.DONUT_MAX_NAME],
                     url = new char[Constants.DONUT_MAX_NAME],
-                    param = new char[(Constants.DONUT_MAX_PARAM + 1) * Constants.DONUT_MAX_NAME]
+                    param = new char[(Constants.DONUT_MAX_PARAM + 1) * Constants.DONUT_MAX_NAME],
+                    outfile = new char[Constants.DONUT_MAX_NAME]
                 };
+                Copy(config.outfile, "payload.bin");
 
                 return config;
             }
@@ -554,21 +627,21 @@ namespace donutCS
             }
             return 0;
         }
-        public static unsafe void WriteOutput(string outfile, ref DSConfig config)
+        public static unsafe void WriteOutput(ref DSConfig config)
         {
             try
             {
                 // Raw bytes to file
-                FileStream f = new FileStream(outfile, FileMode.Create, FileAccess.Write);
+                FileStream f = new FileStream(Helper.String(config.outfile), FileMode.Create, FileAccess.Write);
                 UnmanagedMemoryStream fs = new UnmanagedMemoryStream((byte*)config.pic, Convert.ToInt32(config.pic_cnt));
                 fs.CopyTo(f);
                 fs.Close();
                 f.Close();
-                Console.WriteLine($"\nRaw Payload: {outfile}");
+                Console.WriteLine($"\nRaw Payload: {Helper.String(config.outfile)}");
 
                 // Write B64 version
-                File.WriteAllText($@"{outfile}.b64", Convert.ToBase64String(File.ReadAllBytes(outfile)));
-                Console.WriteLine($"B64 Payload: {outfile}.b64\n");
+                File.WriteAllText($@"{Helper.String(config.outfile)}.b64", Convert.ToBase64String(File.ReadAllBytes(Helper.String(config.outfile))));
+                Console.WriteLine($"B64 Payload: {Helper.String(config.outfile)}.b64\n");
             }
             catch
             {

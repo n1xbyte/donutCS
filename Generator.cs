@@ -3,13 +3,13 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
 
-using donutCS.Structs;
+using Donut.Structs;
 
-namespace donutCS
+namespace Donut
 {
-    class Generator
+    public class Generator
     {
-        public static int Donut_Create(ref DSConfig config, string outfile)
+        public static int Donut_Create(ref DSConfig config)
         {
             D.Print("Entering Donut_Create()");
             int ret;
@@ -40,7 +40,7 @@ namespace donutCS
             }
 
             // Generates output
-            ret = GenerateOutput(ref config, outfile);
+            ret = GenerateOutput(ref config);
             if (ret != Constants.DONUT_ERROR_SUCCESS)
             {
                 return ret;
@@ -55,6 +55,24 @@ namespace donutCS
 
             return Constants.DONUT_ERROR_SUCCESS;
 
+        }
+
+        // Overload to parse nuget package config
+        // Pass to actual Donut_Create
+        public static int Donut_Create(ref DonutConfig args)
+        {
+            // Create Config
+            DSConfig config = new Helper().InitStruct("DSConfig");
+
+            // Parse provided args
+            Helper.ParseArguments(ref args, ref config);
+
+            int ret = Donut_Create(ref config);
+
+            // Free PIC shellcode
+            Marshal.FreeHGlobal(config.pic);
+
+            return ret;
         }
         public static int CreateModule(ref DSConfig config, ref DSFileInfo fi)
         {
@@ -393,14 +411,10 @@ namespace donutCS
             return Constants.DONUT_ERROR_SUCCESS;
         }
 
-        public static int GenerateOutput(ref DSConfig config, string outfile)
+        public static int GenerateOutput(ref DSConfig config)
         {
-
             // Write Output
-            Helper.WriteOutput(outfile, ref config);
-
-            // Edit Loader Template
-            Helper.EditTemplate(outfile);
+            Helper.WriteOutput(ref config);
 
             return Constants.DONUT_ERROR_SUCCESS;
         }

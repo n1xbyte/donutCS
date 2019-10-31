@@ -2,11 +2,11 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-using donutCS.Structs;
+using Donut.Structs;
 
-namespace donutCS
+namespace Donut
 {
-    class D
+    public class D
     {
         [System.Diagnostics.Conditional("DEBUG")]
         static public void Print(string printme)

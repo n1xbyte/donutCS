@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace donutCS.Structs
+namespace Donut.Structs
 {
     public unsafe struct DSConfig
     {
@@ -23,6 +23,8 @@ namespace donutCS.Structs
         public char[] runtime;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_NAME)]
         public char[] modname;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_NAME)]
+        public char[] outfile;
 
         public int mod_type;
         public UInt64 mod_len;

@@ -1,7 +1,7 @@
 ﻿using System;
-using donutCS.Payloads;
+using Donut.Payloads;
 
-class Constants
+public class Constants
 {
     public const int CIPHER_BLK_LEN =               128 / 8;
     public const int DONUT_KEY_LEN =                128 / 8;
