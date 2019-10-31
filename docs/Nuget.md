@@ -1,5 +1,5 @@
 # Nuget Package
-https://vimeo.com/manage/369965334/general
+https://vimeo.com/369965334
 
 ## Installation (Visual Studio)
 This applies only to VS but same concept applies errrrywhere  

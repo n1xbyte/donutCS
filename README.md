@@ -12,13 +12,15 @@ Confirmed working on Linux, Mac and Windows
 ## Usage
 
 ### Nuget Package (Preferred)
+Download and add from nuget repo : https://www.nuget.org/packages/DonutCore/
+See usage [here](./docs/Nuget.md#Usage)  
+
+or  
+
 I have added the package to the root directory. (DonutCore.1.0.0.nupkg)  
 Import instructions & short vid for time being can be found [here](./docs/Nuget.md)  
 
-The package also now automatically generated when compiled inside the \bin\ directory.
-
-It will be published on nuget.org (hopefully) eventually.  
-(Name change due to Donut being taken on nuget.org)  
+The package also now automatically generated when compiled inside the \bin\ directory.  
 
 ### Normal
 Refer to https://github.com/TheWover/donut for full usage. Should be exactly the same.    
