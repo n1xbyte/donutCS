@@ -3,7 +3,7 @@
 .NET Core version of donut shellcode generator.  
 https://vimeo.com/369739318  
 
-Note: I simply glued a bunch of things together for a more personally useable version. TheWover and Odzhan did all the hard work, those dudes are god tier. (seriously if you saw the internals you'd understand)
+Note: I simply glued a bunch of things together. TheWover and Odzhan did all the hard work.
 
 ## Install
 Confirmed working on Linux, Mac and Windows  
@@ -12,12 +12,12 @@ Confirmed working on Linux, Mac and Windows
 ## Usage
 
 ### Nuget Package (Preferred)
-Download and add from nuget repo : https://www.nuget.org/packages/DonutCore/
+Download and add from nuget repo : https://www.nuget.org/packages/DonutCore/  
 See usage [here](./docs/Nuget.md#Usage)  
 
 or  
 
-I have added the package to the root directory. (DonutCore.1.0.0.nupkg)  
+I have added the package to the root directory. (DonutCore.1.0.1.nupkg)  
 Import instructions & short vid for time being can be found [here](./docs/Nuget.md)  
 
 The package also now automatically generated when compiled inside the \bin\ directory.  
@@ -32,11 +32,6 @@ From the root of the donut directory you can run ```dotnet run``` or ```dotnet r
 Video on basic usage and quick example of automation: https://vimeo.com/369739318  
 
 Template Project is an alteration of https://github.com/TheWover/donut/tree/master/DonutTest    
-
-## Future
-Create more seamless automation for final payload generation, automatic compilation on windows/linux.  
-  
-Upgrade to Core 3.0, I'm a derp and just did what I had.
 
 ## Whats broken until I fix
 URL Delivery is not configured from the original project  

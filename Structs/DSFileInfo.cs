@@ -6,7 +6,10 @@ namespace Donut.Structs
     public struct DSFileInfo
     {
         public int fd;
-        public UInt64 size;
+        public UInt32 data;
+        public UInt32 zdata;
+        public UInt32 len;
+        public UInt32 zlen;
         public byte map;
         public int type;
         public int arch;

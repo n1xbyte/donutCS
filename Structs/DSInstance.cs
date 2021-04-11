@@ -9,6 +9,9 @@ namespace Donut.Structs
         public DSCrypt key;
         public UInt64 iv;
         public API api;
+        public int exit_opt;
+        public int entropy;
+        public UInt64 oep;
         public int api_cnt;
         public int dll_cnt;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_DLL)]
@@ -19,6 +22,10 @@ namespace Donut.Structs
         public char[] clr;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public char[] wldp;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public char[] cmd_syms;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public char[] exit_api;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
         public char[] wldpQuery;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]

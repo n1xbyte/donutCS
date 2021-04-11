@@ -7,6 +7,8 @@ namespace Donut.Structs
     public struct DSModule
     {
         public int type;
+        public int thread;
+        public int compress;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_NAME*2)]
         public byte[] runtime;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_NAME*2)]
@@ -22,6 +24,7 @@ namespace Donut.Structs
         public char[] sig;
         public UInt64 mac;
         public UInt64 len;
+        public UInt64 zlen;
         public IntPtr data;  
     }
     [StructLayout(LayoutKind.Sequential)]

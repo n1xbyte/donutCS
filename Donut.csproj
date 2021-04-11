@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -15,16 +14,13 @@
     <PackageProjectUrl>https://github.com/TheWover/donut</PackageProjectUrl>
     <RepositoryUrl>https://github.com/n1xbyte/donutCS</RepositoryUrl>
     <Description>dem sharp donuts</Description>
+    <Version>1.0.2</Version>
   </PropertyGroup>
-
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.6.0" />
     <PackageReference Include="PeNet" Version="1.1.1" />
   </ItemGroup>
-
 </Project>

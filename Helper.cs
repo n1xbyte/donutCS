@@ -100,16 +100,39 @@ namespace Donut
             {
                 Helper.Copy(config.param, args.Args);
             }
-
-            if (string.IsNullOrEmpty(args.InputFile) == false)
+            if (args.Entropy != null)
             {
-                Helper.Copy(config.file, args.InputFile);
+                config.entropy = args.Entropy;
+            }
+            if (args.Format != null)
+            {
+                config.format = args.Format;
+            }
+            if (args.CreateThreadAddr != null)
+            {
+                config.oep = Convert.ToUInt64(args.CreateThreadAddr);
+            }
+            if (args.Exit != null)
+            {
+                config.exit_opt = args.Exit;
+            }
+            if (args.CompressEngine != null)
+            {
+                config.compress = args.CompressEngine;
+            }
+            if (args.UnmanagedEntry != null)
+            {
+                config.thread = args.UnmanagedEntry;
+            }
+            if (string.IsNullOrEmpty(args.UnmanagedArgs) == false)
+            {
+                Helper.Copy(config.param, args.UnmanagedArgs);
             }
 
             return Constants.DONUT_ERROR_SUCCESS;
         }
         
-        // This parses if using commandline
+        // This parses if using command line
         public static void ParseArguments(Options opts, ref DSConfig config)
         {
             try
@@ -209,6 +232,79 @@ namespace Donut
                 };
             }
             catch { };
+
+            try
+            {
+                if (opts.Entropy.Equals(null) == false)
+                {
+                    config.entropy = opts.Entropy;
+                    Console.WriteLine($"\tEntopy:\t {opts.Entropy}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Format.Equals(null) == false)
+                {
+                    config.format = opts.Format;
+                    Console.WriteLine($"\tFormat:\t {opts.Format}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.CreateThreadAddr.Equals(null) == false)
+                {
+                    config.oep = Convert.ToUInt64(opts.CreateThreadAddr);
+                    Console.WriteLine($"\tCreateThread start addr:\t {opts.CreateThreadAddr}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.Exit.Equals(null) == false)
+                {
+                    config.exit_opt = opts.Exit;
+                    Console.WriteLine($"\tExit Code:\t {opts.Exit}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.CompressEngine.Equals(null) == false)
+                {
+                    config.compress = opts.CompressEngine;
+                    Console.WriteLine($"\tCompression Engine:\t {opts.URL}");
+                };
+            }
+            catch { };
+
+            // NEW: Figure out how to just set flag if exists for last two
+            try
+            {
+                if (opts.UnmanagedEntry.Equals(null) == false)
+                {
+                    config.entropy = opts.UnmanagedEntry;
+                    Console.WriteLine($"\tEntopy:\t {opts.UnmanagedEntry}");
+                };
+            }
+            catch { };
+
+            try
+            {
+                if (opts.UnmanagedArgs.Equals(null) == false)
+                {
+                    char[] buffer = opts.Version.ToCharArray();
+                    Array.Copy(buffer, 0, config.param, 0, buffer.Length);
+                    Console.WriteLine($"\tArgs:\t {opts.Args}");
+                };
+            }
+            catch { };
+
         }
         public static int ParseConfig(ref DSConfig config, ref DSFileInfo fi)
         {
@@ -217,13 +313,47 @@ namespace Donut
             // Checks if file exists
             if (File.Exists(file) == false)
             {
+                D.Print("File does not exist");
                 return Constants.DONUT_ERROR_INVALID_PARAMETER;
             }
 
+            // Validate instance type
+            if (config.inst_type != Constants.DONUT_INSTANCE_PIC &&
+                config.inst_type != Constants.DONUT_INSTANCE_URL)
+            {
+                D.Print("Instance type is invalid");
+                return Constants.DONUT_ERROR_INVALID_PARAMETER;
+            }
+
+            // Validate format
+            if (config.format < Constants.DONUT_FORMAT_BINARY || 
+                config.format > Constants.DONUT_FORMAT_HEX)
+            {
+                D.Print("Format type is invalid");
+                return Constants.DONUT_ERROR_INVALID_FORMAT;
+            }    
+
+            // Validate compression engine
+            if (config.compress < Constants.DONUT_COMPRESS_NONE ||
+                config.compress > Constants.DONUT_COMPRESS_XPRESS_HUFF)
+            {
+                D.Print("Compression engine is invalid");
+                return Constants.DONUT_ERROR_INVALID_ENGINE;
+            }    
+
+            // Validate entropy level
+            if (config.entropy < Constants.DONUT_ENTROPY_NONE ||
+                config.entropy > Constants.DONUT_ENTROPY_DEFAULT)
+            {
+                D.Print("Entropy level is invalid");
+                return Constants.DONUT_ERROR_INVALID_ENTROPY;
+            }
+
             // Validate URL
+            // NEW: validate_loader_cfg() inst types, compression, entropy
             if (config.inst_type == Constants.DONUT_INSTANCE_URL)
             {
-                // Make sure it's a validate URL (check this don't know exactly how it's checking)
+                // NEW: URL parsing
                 D.Print("Validating URL");
                 if (Uri.IsWellFormedUriString(String(config.url), UriKind.Absolute) == false)
                 {
@@ -238,12 +368,12 @@ namespace Donut
             }
 
             // Validate Arch
-            D.Print("Checking for Arch Mismatch");
             if (config.arch != Constants.DONUT_ARCH_ANY &&
                 config.arch != Constants.DONUT_ARCH_X86 &&
                 config.arch != Constants.DONUT_ARCH_X84 &&
                 config.arch != Constants.DONUT_ARCH_X64)
             {
+                D.Print("Arch m");
                 return Constants.DONUT_ERROR_INVALID_ARCH;
             }
 
@@ -265,7 +395,8 @@ namespace Donut
 
             // Set Module Type
             config.mod_type = fi.type;
-            if (config.mod_type == Constants.DONUT_MODULE_DLL || config.mod_type == Constants.DONUT_MODULE_EXE)
+            if (config.mod_type == Constants.DONUT_MODULE_DLL || 
+                config.mod_type == Constants.DONUT_MODULE_EXE)
             {
                 // Check for Arch mismatch
                 if ((config.arch == Constants.DONUT_ARCH_X86 && fi.arch == Constants.DONUT_ARCH_X64) ||
@@ -419,6 +550,12 @@ namespace Donut
             }
             return Constants.DONUT_ERROR_SUCCESS;
         }
+
+        // NEW: Write compression
+        public static int Compress(ref DSConfig config)
+        {
+            return Constants.DONUT_ERROR_SUCCESS;
+        }
         public static void APIImports(ref DSInstance inst)
         {
             UInt64 dll_hash, final;
@@ -430,7 +567,14 @@ namespace Donut
                     Constants.KERNEL32_DLL,
                     new List<string> {
                 "LoadLibraryA", "GetProcAddress", "GetModuleHandleA", "VirtualAlloc", "VirtualFree",
-                "VirtualQuery", "VirtualProtect", "Sleep", "MultiByteToWideChar", "GetUserDefaultLCID"}
+                "VirtualQuery", "VirtualProtect", "Sleep", "MultiByteToWideChar", "GetUserDefaultLCID",
+                "WaitForSingleObject", "CreateThread", "GetThreadContext", "GetCurrentThread", "GetCommandLineA",
+                "GetCommandLineW","AddVectoredExceptionHandler", "RemoveVectoredExceptionHandler"}
+                },
+                {
+                    Constants.SHELL32_DLL,
+                    new List<string> {
+                "CommandLineToArgvW"}
                 },
                 {
                     Constants.OLEAUT32_DLL,
@@ -453,6 +597,13 @@ namespace Donut
                     Constants.OLE32_DLL,
                     new List<string> {
                 "CoInitializeEx", "CoCreateInstance", "CoUninitialize"}
+                },
+                {
+                    Constants.NTDLL_DLL,
+                    new List<string> {
+                "RtlEqualUnicodeString", "RtlEqualString", "RtlUnicodeStringToAnsiString", "RtlInitUnicodeString",
+                "RtlExitUserThread", "RtlExitUserProcess", "RtlCreateUnicodeString", "RtlGetCompressionWorkSpaceSize",
+                "RtlDecompressBuffer", "NtContinue"}
                 }
             };
 
@@ -549,6 +700,21 @@ namespace Donut
                     break;
                 case Constants.DONUT_ERROR_NORELOC:
                     returnval = "[-] This file has no relocation information required for in-memory execution.";
+                    break;
+                case Constants.DONUT_ERROR_INVALID_FORMAT:
+                    returnval = "The output format is invalid.";
+                    break;
+                case Constants.DONUT_ERROR_INVALID_ENGINE:
+                    returnval = "The compression engine is invalid.";
+                    break;
+                case Constants.DONUT_ERROR_COMPRESSION:
+                    returnval = "There was an error during compression.";
+                    break;
+                case Constants.DONUT_ERROR_INVALID_ENTROPY:
+                    returnval = "Invalid entropy level specified.";
+                    break;
+                case Constants.DONUT_ERROR_MIXED_ASSEMBLY:
+                    returnval = "Mixed (native and managed) assemblies are currently unsupported.";
                     break;
             }
             return returnval;

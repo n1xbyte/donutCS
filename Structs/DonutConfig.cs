@@ -9,6 +9,13 @@ namespace Donut.Structs
     {
         public int Arch;
         public int Bypass;
+        public int Entropy;
+        public int Exit;
+        public int UnmanagedEntry;
+        public int Format;
+        public int CompressEngine;
+        public string UnmanagedArgs;
+        public string CreateThreadAddr;
         public string Domain;
         public string Class;
         public string Method;

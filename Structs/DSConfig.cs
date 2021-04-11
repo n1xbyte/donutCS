@@ -7,6 +7,13 @@ namespace Donut.Structs
     {
         public int arch;
         public int bypass;
+        public int compress;
+        public int entropy;
+        public int format;
+        public int exit_opt;
+        public int thread;
+        public UInt64 oep;
+        public int unicode;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_NAME)]
         public char[] domain;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.DONUT_MAX_NAME)]

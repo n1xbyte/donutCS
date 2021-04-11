@@ -23,6 +23,12 @@ public class Constants
     public const int DONUT_ERROR_DLL_PARAM =        14;
     public const int DONUT_ERROR_BYPASS_INVALID =   15;
     public const int DONUT_ERROR_NORELOC =          16;
+    public const int DONUT_ERROR_INVALID_FORMAT =   17;
+    public const int DONUT_ERROR_INVALID_ENGINE =   18;
+    public const int DONUT_ERROR_COMPRESSION =      19;
+    public const int DONUT_ERROR_INVALID_ENTROPY =  20;
+    public const int DONUT_ERROR_MIXED_ASSEMBLY =   21;
+
 
     // target architecture;
     public const int DONUT_ARCH_ANY = -1;   // just for vbs,js and xsl files;
@@ -39,9 +45,36 @@ public class Constants
     public const int DONUT_MODULE_JS =      6;  // JavaScript or JScript;
     public const int DONUT_MODULE_XSL =     7;  // XSL with JavaScript/JScript or VBscript embedded;
 
+    // format type
+    public const int DONUT_FORMAT_BINARY =      1;
+    public const int DONUT_FORMAT_BASE64 =      2;
+    public const int DONUT_FORMAT_RUBY =        3;
+    public const int DONUT_FORMAT_C =           4;
+    public const int DONUT_FORMAT_PYTHON =      5;
+    public const int DONUT_FORMAT_POWERSHELL =  6;
+    public const int DONUT_FORMAT_CSHARP =      7;
+    public const int DONUT_FORMAT_HEX =         8;
+
+    // compression engine
+    public const int DONUT_COMPRESS_NONE =          1;
+    public const int DONUT_COMPRESS_APLIB =         2;
+    public const int DONUT_COMPRESS_LZNT1 =         3; // COMPRESSION_FORMAT_LZNT1
+    public const int DONUT_COMPRESS_XPRESS =        4; // COMPRESSION_FORMAT_XPRESS
+    public const int DONUT_COMPRESS_XPRESS_HUFF =   5; // COMPRESSION_FORMAT_XPRESS_HUFF
+
+    // entropy level
+    public const int DONUT_ENTROPY_NONE =       1; // don't use any entropy
+    public const int DONUT_ENTROPY_RANDOM =     2; // use random names
+    public const int DONUT_ENTROPY_DEFAULT =    3; // use random names + symmetric encryption
+
+    // misc options
+    public const int DONUT_OPT_EXIT_THREAD =    1; // after the main shellcode ends, return to the caller which eventually calls RtlExitUserThread
+    public const int DONUT_OPT_EXIT_PROCESS =   2; // after the main shellcode ends, call RtlExitUserProcess to terminate host process
+
     // instance type;
-    public const int DONUT_INSTANCE_PIC = 1;  // Self-contained;
-    public const int DONUT_INSTANCE_URL = 2;  // Download from remote server;
+    public const int DONUT_INSTANCE_PIC = 1;  // Module is embedded
+    public const int DONUT_INSTANCE_URL = 2;  // Module is downloaded from remote HTTP/HTTPS server
+    public const int DONUT_INSTANCE_DNS = 3;  // Module is downloaded from remote DNS server
 
     // AMSI/WLDP options;
     public const int DONUT_BYPASS_SKIP =        1;  // Disables bypassing AMSI/WDLP;
@@ -71,6 +104,7 @@ public class Constants
     public const string COMBASE_DLL =   "combase.dll";
     public const string USER32_DLL =    "user32.dll";
     public const string SHLWAPI_DLL =   "shlwapi.dll";
+    public const string SHELL32_DLL =   "shell32.dll";
 
     // required to load .NET assemblies
     public static Guid xCLSID_CorRuntimeHost =  new Guid(0xcb2f6723, 0xab3a, 0x11d2, 0x9c, 0x40, 0x00, 0xc0, 0x4f, 0xa3, 0x0a, 0x3e);

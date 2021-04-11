@@ -77,6 +77,7 @@ namespace Donut
         public static int CreateModule(ref DSConfig config, ref DSFileInfo fi)
         {
             string[] param;
+            int ret;
             Console.WriteLine("\nPayload options:");
             D.Print("Entering CreateModule()");
 
@@ -84,12 +85,27 @@ namespace Donut
             DSModule mod = new Helper().InitStruct("DSModule");
             mod.type = fi.type;
 
+            // NEW: compress_file() if flag set
+            if (config.compress != Constants.DONUT_COMPRESS_NONE)
+            {
+                ret = Helper.Compress(ref config);
+                if (ret != Constants.DONUT_ERROR_SUCCESS)
+                {
+                    D.Print("Compression failed");
+                    return ret;
+                }
+                mod.zlen = fi.zlen;
+                //mod.zdata = fi.zdata;
+                
+            }
+
             // DotNet Assembly
             if (mod.type == Constants.DONUT_MODULE_NET_DLL || mod.type == Constants.DONUT_MODULE_NET_EXE)
             {
                 // If no AppDomain, generate one
                 if (config.domain[0] == 0)
                 {
+                    // NEW: Entropy
                     Helper.Copy(config.domain, Helper.RandomString(8));
                 }
                 Console.WriteLine($"\tDomain:\t{Helper.String(config.domain)}");
@@ -133,6 +149,7 @@ namespace Donut
                 param = Helper.String(config.param).Split(new char[] { ',', ';' });
                 for (int cnt = 0; cnt < param.Length; cnt++)
                 {
+                    // NEW: Entropy
                     Helper.Unicode(mod.p[cnt].param, param[cnt]);
                     mod.param_cnt++;
                 }
@@ -169,6 +186,8 @@ namespace Donut
                 D.Print($"Adding module size {config.mod_len} to instance size");
                 inst_len += Convert.ToUInt32(Marshal.SizeOf(typeof(DSModule)) + 32) + Convert.ToUInt32(config.mod_len);
             }
+
+            // NEW: Entropy
 
             // Generate instance key and counter
             bytes = Helper.RandomBytes(32);
@@ -264,6 +283,8 @@ namespace Donut
 
             // Assign inst type
             inst.type = config.inst_type;
+
+            // NEW: Entropy?
 
             // If URL type, assign URL
             if (inst.type == Constants.DONUT_INSTANCE_URL)
