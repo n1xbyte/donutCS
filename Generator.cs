@@ -316,12 +316,13 @@ namespace Donut
             {
                 D.Print($"Copying PIC module data to instance");
                 // Copy payload file to end of module
-                var mmfile = MemoryMappedFile.CreateFromFile(Helper.String(config.file), FileMode.Open);
-                var view = mmfile.CreateViewAccessor();
-                byte* fileptr = (byte*)0;
-                view.SafeMemoryMappedViewHandle.AcquirePointer(ref fileptr);
-                Buffer.MemoryCopy(fileptr, IntPtr.Add(moddata, fileoffset).ToPointer(), config.mod.len, config.mod.len);
-                mmfile.Dispose();
+
+                byte[] payload = File.ReadAllBytes(Helper.String(config.file));
+                IntPtr unmanagedPointer = Marshal.AllocHGlobal(payload.Length);
+                Marshal.Copy(payload, 0, unmanagedPointer, payload.Length);
+
+                Buffer.MemoryCopy(unmanagedPointer.ToPointer(), IntPtr.Add(moddata, fileoffset).ToPointer(), config.mod.len, config.mod.len);
+                Marshal.FreeHGlobal(unmanagedPointer);
             }
 
             // Release module
