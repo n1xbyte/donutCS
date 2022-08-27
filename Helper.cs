@@ -54,7 +54,6 @@ namespace Donut
         // This parses if using nuget package
         public static int ParseArguments(ref DonutConfig args, ref DSConfig config)
         {
-            int ret;
             // If no input file
             if (string.IsNullOrEmpty(args.InputFile) == true)
             {
@@ -396,10 +395,10 @@ namespace Donut
                 }
 
                 // Check .NET and Reset Type
-                if (PE.HasValidComDescriptor == true)
+                if (PE.ImageComDescriptor != null)
                 {
                     D.Print("COM Descriptor found, .NET selected");
-                    if (PE.IsDLL == true)
+                    if (PE.IsDll == true)
                     {
                         fi.type = Constants.DONUT_MODULE_NET_DLL;
                     }
@@ -864,7 +863,7 @@ namespace Donut
         public static byte[] RandomBytes(int length)
         {
             byte[] rand = new byte[length];
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            RandomNumberGenerator rng = RandomNumberGenerator.Create();
             rng.GetBytes(rand);
             return rand;
         }

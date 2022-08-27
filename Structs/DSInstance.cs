@@ -35,47 +35,29 @@ namespace Donut.Structs
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
         public char[] wscript_exe;
 
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IUnknown;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IDispatch;
 
         // GUID required to load .NET assemblies
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xCLSID_CLRMetaHost;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_ICLRMetaHost;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_ICLRRuntimeInfo;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xCLSID_CorRuntimeHost;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_ICorRuntimeHost;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_AppDomain;
 
         // GUID required to run VBS and JS files
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xCLSID_ScriptLanguage;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IHost;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IActiveScript;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IActiveScriptSite;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IActiveScriptSiteWindow;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IActiveScriptParse32;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IActiveScriptParse64;
 
         // GUID required to run XSL files
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xCLSID_DOMDocument30;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IXMLDOMDocument;
-        [MarshalAs(UnmanagedType.Struct, SizeConst = 16)]
         public Guid xIID_IXMLDOMNode;
 
         public int type;
